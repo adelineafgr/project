@@ -47,55 +47,13 @@ Sistem manajemen multiple Account Executive (AE) di zona bebas (Free Trade) untu
 
 ```mermaid
 flowchart TD
-    A[AE Input Data Prospek<br/>ke Database] --> B{Input Realtime?}
-    B -->|Ya| C[Sistem: Status = In Progress]
-    B -->|Tidak| D[TIDAK DIPERBOLEHKAN]
-    
-    C --> E[AE Input Sales Activity]
-    E --> F[AE Buat Penawaran]
-    F --> G[SM/FC Otorisasi Penawaran]
-    
-    G --> H[Sistem: Kirim Email<br/>ke PIC dalam 10 menit]
-    
-    H --> I{PIC Terima Email<br/>dalam 5x24 jam?}
-    I -->|Tidak| J[Status = Open<br/>Prospek dapat diambil AE lain]
-    I -->|Ya| K[AE Wajib Input<br/>Checklist Tindak Lanjut<br/>dalam 1x24 jam]
-    
-    K --> L{Checklist Input<br/>dalam 1x24 jam?}
-    L -->|Tidak| J
-    L -->|Ya| M[Status Tetap In Progress]
-    
-    M --> N[AE Wajib Follow Up 1<br/>dalam 3x24 jam setelah<br/>PIC terima penawaran]
-    
-    N --> O{Follow Up 1<br/>Input dalam 3x24 jam?}
-    O -->|Tidak| P{1x24 jam untuk<br/>klarifikasi offline?}
-    O -->|Ya| Q{Dealing pada<br/>Follow Up 1?}
-    
-    P -->|Input Valid| N
-    P -->|Tidak Ada Input| R[SM/FC Beri Akses<br/>ke AE Lain]
-    
-    Q -->|Ya| S[SELESAI: Deal]
-    Q -->|Tidak| T[AE Wajib Follow Up 2<br/>dalam 3x24 jam setelah<br/>Follow Up 1]
-    
-    T --> U{Follow Up 2<br/>Input dalam 3x24 jam?}
-    U -->|Tidak| P
-    U -->|Ya| V{Dealing pada<br/>Follow Up 2?}
-    
-    V -->|Ya| S
-    V -->|Tidak| W{Penawaran > 30 hari?}
-    
-    W -->|Ya| X[AE Wajib Kirim<br/>Penawaran Baru]
-    W -->|Tidak| Y[Negosiasi Berlanjut<br/>Prospek Locked ke AE]
-    
-    X --> Y
-    
-    Z[Incoming Call dari<br/>Customer Care] --> AA[Sistem Input ke Database]
-    AA --> AB[AE Pertama Lihat Data<br/>Mendapat Akses]
-    AB --> AC{AE Pertama<br/>Follow Up?}
-    AC -->|Ya| AD[AE Lain Tidak Dapat Akses]
-    AC -->|Tidak| AE[AE Lain Dapat Akses]
-    AD --> K
-    AE --> K
+    A[Start: Data Prospek/Incoming Call] --> B{Jenis Input}
+
+    B -->|Prospek Baru| C[AE Input Data Pelanggan ke Database]
+    B -->|Incoming Call| D[Customer Care Input ke Database]
+
+    D --> E[AE Pertama Melihat Data Incoming Call]
+    E --> F[AE Klaim Data untuk Follow Up]
 ```
 
 ## Detailed Logic
