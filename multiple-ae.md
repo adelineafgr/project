@@ -133,8 +133,7 @@ flowchart TD
 ### A. Proses Penawaran
 
 1. **Input Data Prospek**
-   - AE input data informasi pelanggan ke database
-   - Input harus realtime, tidak boleh setelah dealing
+   - AE input data informasi pelanggan ke database secara realtime
    - Alamat email PIC wajib dilampirkan (untuk Residensial yang ingin via WA, email tetap wajib)
    - Status prospek = In Progress
 
@@ -160,6 +159,7 @@ flowchart TD
    - Wajib dilakukan 3x24 jam setelah penawaran diterima PIC
    - Hasil follow-up wajib diinput dalam database
    - Jika tidak diinput → dianggap tidak melakukan follow-up
+   - Tidak follow maka klarifikasi offline
 
 7. **Follow Up 2**
    - Wajib dilakukan 3x24 jam setelah follow-up 1
@@ -226,34 +226,22 @@ flowchart TD
 
 ## Error Handling & Edge Cases
 
-**E-001**: AE input data setelah dealing  
-- Sistem: reject input atau tandai sebagai invalid
-
-**E-002**: Email PIC tidak dilampirkan  
-- Sistem: blokir proses penawaran sampai email dilengkapi
-
-**E-003**: AE tidak input checklist dalam 1x24 jam  
+**E-001**: AE tidak input checklist dalam 1x24 jam  
 - Sistem: ubah status prospek menjadi Open otomatis
 
-**E-004**: Penawaran tidak diterima PIC dalam 5x24 jam  
+**E-002**: Penawaran tidak diterima PIC dalam 5x24 jam  
 - Sistem: ubah status prospek menjadi Open otomatis
 
-**E-005**: AE tidak input hasil follow-up  
+**E-003**: AE tidak input hasil follow-up  
 - Sistem: anggap tidak melakukan follow-up, trigger eskalasi ke SM/FC
 
-**E-006**: AE input progress offline setelah 1x24 jam klarifikasi  
+**E-004**: AE input progress offline setelah 1x24 jam klarifikasi  
 - Sistem: input ditolak, prospek sudah dialokasikan ke AE lain
 
-**E-007**: Penawaran melewati 30 hari tanpa pembaruan  
-- Sistem: tandai penawaran expired, blokir proses dealing sampai penawaran baru dikirim
-
-**E-008**: Dua AE melihat incoming call bersamaan  
+**E-005**: Dua AE melihat incoming call bersamaan  
 - Sistem: lock data untuk AE yang pertama kali klik/akses data
 
-**E-009**: SM/FC memberikan akses ke AE lain tanpa menunggu 1x24 jam klarifikasi  
-- Proses: validasi workflow harus enforce waiting period
-
-**E-010**: AE di luar zona bebas tidak melakukan follow-up  
+**E-006**: AE tidak melakukan follow-up  
 - SM/FC melakukan proses administratif pengganti
 
 ## Asumsi & Pertanyaan Terbuka
@@ -265,27 +253,9 @@ flowchart TD
 - A-004: Validasi input progress offline oleh SM/FC dilakukan secara manual
 - A-005: Status "Open" berarti prospek visible dan dapat diambil oleh semua AE di zona bebas
 
-**Pertanyaan Terbuka:**
-- Q-001: Apakah ada prioritas AE berdasarkan performa/senioritas saat prospek kembali Open?
-- Q-002: Bagaimana mekanisme jika AE sedang cuti/tidak tersedia saat batas waktu follow-up?
-- Q-003: Apakah ada batasan jumlah prospek yang dapat di-handle AE secara bersamaan?
-- Q-004: Bagaimana penanganan jika email PIC bounce/tidak valid?
-- Q-005: Apakah ada notifikasi ke AE lama saat prospek dialokasikan ke AE baru?
-- Q-006: Bagaimana perhitungan waktu: jam kerja saja atau kalender (24/7)?
-- Q-007: Apakah ada mekanisme appeal jika AE merasa unfairly kehilangan prospek?
-- Q-008: Bagaimana handling jika PIC meminta penawaran dikirim ke multiple email?
-- Q-009: Apakah ada log audit trail untuk semua perubahan status dan alokasi?
-- Q-010: Siapa yang berhak otorisasi untuk incoming call (SM/FC atau otomatis)?
 
 ## Non-Goals
 
 - Detail implementasi UI/UX dashboard monitoring
 - Spesifikasi template email penawaran dan WO Digital
-- Integrasi teknis dengan sistem Customer Care
-- Mekanisme autentikasi dan autorisasi user
-- KPI dan metrics reporting untuk SM/FC
-- Sistem reminder/notifikasi (email, push notification, SMS)
-- Mekanisme eskalasi jika SM/FC tidak merespons
-- Penanganan zona non-bebas (dedicated territory)
-- Kompensasi dan insentif AE
 - Training material atau user guide
