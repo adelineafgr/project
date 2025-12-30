@@ -47,13 +47,85 @@ Sistem manajemen multiple Account Executive (AE) di zona bebas (Free Trade) untu
 
 ```mermaid
 flowchart TD
-    A[Start: Data Prospek/Incoming Call] --> B{Jenis Input}
 
-    B -->|Prospek Baru| C[AE Input Data Pelanggan ke Database]
-    B -->|Incoming Call| D[Customer Care Input ke Database]
+    %% ===== START & INPUT =====
+    subgraph INIT["Fase Awal / Input Data"]
+        START_INFO[Start Informasi Pelanggan:<br/>Data Prospek/Incoming Call] --> INPUT_TYPE{Jenis input}
 
-    D --> E[AE Pertama Melihat Data Incoming Call]
-    E --> F[AE Klaim Data untuk Follow Up]
+        INPUT_TYPE -->|Prospek Baru| INPUT_PROSPECT[AE input data<br/><i>Informasi Pelanggan</i><br/>ke Database]
+        INPUT_TYPE -->|Incoming Call| INPUT_INCALL[Customer Care<br/>input <i>Incoming Call</i><br/>ke Database<br/>Status: New]
+
+        INPUT_INCALL --> VIEW_INCALL[AE melihat<br/>data incall]
+        VIEW_INCALL --> CLAIM_INCALL[AE klaim data untuk<br/><i>Checklist Tindak Lanjut<i>]
+    end
+
+    INPUT_PROSPECT --> LOCK
+    CLAIM_INCALL --> LOCK
+
+    %% ===== ZONA BEBAS =====
+    subgraph FREE["Zona Bebas (Tanpa Timer)"]
+        STATUS_OPEN[Status Prospek: Open]
+        STATUS_OPEN --> UNLOCK[Unlock Data Pelanggan]
+        UNLOCK --> STOP_TIMER[Stop All Timer]
+        STOP_TIMER --> FREE_ZONE[Zona Bebas]
+    end
+
+    %% ===== TIMER PENAWARAN =====
+    subgraph T_CHECK["Checklist & Buat Penawaran"]
+        LOCK[Lock Data Pelanggan<br/> Status: In Progress]
+
+        LOCK --> TIMER_MAIN_START[Start Timer Penawaran<br/>5x24 jam]
+        TIMER_MAIN_START --> TIMER_CHECKLIST_START[Start Timer Follow Up</br>1x24 jam]
+
+        TIMER_CHECKLIST_START --> INPUT_CHECKLIST[AE wajib input<br/> <i>Checklist Tindak Lanjut<i>]
+        INPUT_CHECKLIST --> CHECKLIST_DECISION{Checklist input<br/> dalam 1x24 jam?}
+        CHECKLIST_DECISION --> |YA| STATUS_IN_PROGRESS
+        
+
+        CHECKLIST_DECISION --> |TIDAK| STATUS_OPEN
+
+        STATUS_IN_PROGRESS[Status Prospek: In Progress]
+        STATUS_IN_PROGRESS --> INPUT_CUST_DATA[AE input <i>Data Pelanggan</i><br/>ke Database]
+        INPUT_CUST_DATA --> CREATE_OFFER[AE buat penawaran<br/>dalam sistem]
+        CREATE_OFFER --> AUTH_OFFER[SM/FC Otorisasi penawaran]
+        AUTH_OFFER --> SEND_OFFER[Sistem kirim otomatis<br/>penawaran via email<br/>dalam 10 menit]
+
+        SEND_OFFER --> OFFER_RESPONSE{Penawaran diterima PIC<br/>dalam 5x24 jam?}
+        OFFER_RESPONSE --> |YA| STOP_MAIN_TIMER[Stop Timer 5x24 jam]
+        OFFER_RESPONSE --> |TIDAK| STATUS_OPEN
+    end
+
+    %% ===== TIMER FOLLOW UP =====
+    subgraph T_FU["FollowUp & Close Penawaran"]
+        STOP_MAIN_TIMER --> TIMER_OFFER_30D[Start Timer 30 hari]
+        TIMER_OFFER_30D --> FU[<i>Follow Up]
+        FU --> TIMER_FU_3D[Start Timer 3x24 jam]
+
+        TIMER_FU_3D --> FU_DECISION{Ada input <i>Follow Up</i><br/>dalam 3x24 jam?}
+
+        FU_DECISION --> |YA| OFFER_DEAL{Dealing?}
+        FU_DECISION --> |TIDAK| CLARIF[Klarifikasi Offline]
+
+        OFFER_DEAL --> |YA| OFFER_REV{Revisi Penawaran?}
+        OFFER_DEAL --> |TIDAK| STOP_FU_TIMER[Stop Timer 3x24 jam]
+
+        OFFER_REV --> |TIDAK| OFFER_CLOSE[Penawaran: Close]
+        OFFER_REV --> |YA| REV[Penawaran: Revisi]
+
+        REV --> CREATE_OFFER
+
+        CLARIF --> CLARIF_DECISION{Klarifikasi diterima?}
+        STOP_FU_TIMER --> FU_COUNT_CHECK
+        CLARIF_DECISION --> |YA| FU_COUNT_CHECK{AE sudah Follow Up<br/>lebih dari 2 kali?}
+        CLARIF_DECISION --> |TIDAK| REASSIGN_AE
+
+        FU_COUNT_CHECK --> |YA| UNLOCK_CURRENT_AE[Unlock Data Pelanggan<br/> dengan AE saat ini]
+        FU_COUNT_CHECK --> |TIDAK| FU
+
+        UNLOCK_CURRENT_AE --> REASSIGN_AE[SM/FC plotting AE baru]
+        REASSIGN_AE --> CREATE_OFFER
+    end
+
 ```
 
 ## Detailed Logic
