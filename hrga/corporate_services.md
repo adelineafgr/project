@@ -119,8 +119,8 @@ gantt
     Internal IT Alignment      :active, ko2, 2026-01-07, 3d
 
     section Core HR System
-    Request Employee - DEV          :re_dev, 2026-01-12, 7d
-    Request Employee - TEST         :re_test, 2026-01-19, 7d
+    Req Employee - DEV          :re_dev, 2026-01-12, 7d
+    Req Employee - TEST         :re_test, 2026-01-19, 7d
 
     Hiring Internal - DEV           :hi_dev, 2026-01-19, 7d
     Hiring Internal - TEST          :hi_test, 2026-01-26, 7d
@@ -131,14 +131,14 @@ gantt
     KPI - DEV                       :kpi_dev, 2026-02-02, 7d
     KPI - TEST                      :kpi_test, 2026-02-09, 7d
 
-    Performance Aprasial - DEV      :pa_dev, 2026-02-09, 7d
-    Performance Aprasial - TEST     :pa_test, 2026-02-16, 7d
+    Perf Aprasial - DEV      :pa_dev, 2026-02-09, 7d
+    Perf Aprasial - TEST     :pa_test, 2026-02-16, 7d
 
-    Training & Development - DEV    :td_dev, 2026-02-16, 7d
-    Training & Development - TEST   :td_test, 2026-02-23, 7d
+    Train & Dev - DEV    :td_dev, 2026-02-16, 7d
+    Train & Dev - TEST   :td_test, 2026-02-23, 7d
 
-    Profiling Karyawan - DEV        :td_dev, 2026-02-23, 7d
-    Profiling Karywan - TEST        :td_test, 2026-03-02, 7d
+    Profiling - DEV        :td_dev, 2026-02-23, 7d
+    Profiling - TEST        :td_test, 2026-03-02, 7d
 
     Release                         :milestone, Vr, 2026-03-09, 1d
 
