@@ -131,16 +131,23 @@ gantt
     KPI - DEV                       :kpi_dev, 2026-02-02, 7d
     KPI - TEST                      :kpi_test, 2026-02-09, 7d
 
-    Perf Aprasial - DEV      :pa_dev, 2026-02-09, 7d
-    Perf Aprasial - TEST     :pa_test, 2026-02-16, 7d
+    Perf Aprasial - DEV             :pa_dev, 2026-02-09, 7d
+    Perf Aprasial - TEST            :pa_test, 2026-02-16, 7d
 
-    Train & Dev - DEV    :td_dev, 2026-02-16, 7d
-    Train & Dev - TEST   :td_test, 2026-02-23, 7d
+    Train & Dev - DEV               :td_dev, 2026-02-16, 7d
+    Train & Dev - TEST              :td_test, 2026-02-23, 7d
 
-    Profiling - DEV        :td_dev, 2026-02-23, 7d
-    Profiling - TEST        :td_test, 2026-03-02, 7d
+    Asset Pribadi - DEV             : self_dev, 2026-02-23, 7d
+    Asset Pribadi - TEST            : self_test, 2026-03-02, 7d
 
-    Release                         :milestone, Vr, 2026-03-09, 1d
+    Asset Kantor - DEV              : office_dev, 2026-03-02, 7d
+    Asset Kantor - TEST             : office_test, 2026-03-09, 7d
+
+    Profiling - DEV                 :td_dev, 2026-03-09, 7d
+    Profiling - TEST                :td_test, 2026-03-16, 7d
+
+    Release                         : milestone, Vr, 2026-03-23, 1d
+    Sosialisasi                     : milestone, Vr, 2026-03-25, 1d
 
 ```
 ## Logika Detail
