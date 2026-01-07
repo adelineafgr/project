@@ -128,6 +128,36 @@ flowchart TD
 
 ```
 
+## Use Case
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'actorBorder': '#111111', 'actorFill': '#fef3c7', 'usecaseFill': '#fde68a'}}}%%
+usecaseDiagram
+    actor AE
+    actor CustomerCare as CC
+    actor SM_FC as SM
+
+    AE --> (Input Prospek Baru)
+    CC --> (Input Incoming Call)
+    AE --> (Klaim Incoming Call)
+    AE --> (Isi Checklist Tindak Lanjut)
+    AE --> (Input Data Pelanggan)
+    AE --> (Buat Penawaran)
+    SM --> (Otorisasi Penawaran)
+    AE --> (Follow Up Penawaran)
+    AE --> (Revisi Penawaran)
+    SM --> (Reassign AE)
+
+    (Input Prospek Baru) --> (Lock Data Pelanggan)
+    (Klaim Incoming Call) --> (Lock Data Pelanggan)
+    (Lock Data Pelanggan) --> (Start Timer Penawaran)
+    (Start Timer Penawaran) --> (Buat Penawaran)
+    (Buat Penawaran) --> (Kirim Penawaran Otomatis)
+    (Kirim Penawaran Otomatis) --> (Follow Up Penawaran)
+    (Follow Up Penawaran) --> (Revisi Penawaran)
+    (Follow Up Penawaran) --> (Penutupan Penawaran)
+
+```
+
 ## Detailed Logic
 
 ### A. Proses Penawaran
