@@ -129,6 +129,7 @@ flowchart TD
 ```
 
 ## Gantt Chart
+```mermaid
 gantt
     title Project Timeline – Modul Multiple AE (ERP)
     dateFormat  YYYY-MM-DD
@@ -153,7 +154,7 @@ gantt
     section UAT & Deployment
     User Acceptance Test (UAT)              :e1, after d2, 4d
     Training & Go-Live                      :e2, after e1, 3d
-
+```
 
 ## Detailed Logic
 
