@@ -128,6 +128,33 @@ flowchart TD
 
 ```
 
+## Gantt Chart
+gantt
+    title Project Timeline – Modul Multiple AE (ERP)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d %b
+
+    section Initiation & Alignment
+    Project Charter & BRD Finalization      :a1, 2026-01-01, 5d
+    Business & Scope Alignment              :a2, after a1, 3d
+
+    section Design
+    Functional & Technical Design (FSD,TDD) :b1, after a2, 7d
+    ERD & Activity Diagram (To-Be)          :b2, parallel b1, 5d
+
+    section Development
+    Core Development (Timer, Lock, Assign)  :c1, after b1, 10d
+    Dashboard & Audit Trail                 :c2, parallel c1, 8d
+
+    section Testing
+    System Integration Testing (SIT)        :d1, after c1, 5d
+    Bug Fixing & Stabilization              :d2, after d1, 4d
+
+    section UAT & Deployment
+    User Acceptance Test (UAT)              :e1, after d2, 4d
+    Training & Go-Live                      :e2, after e1, 3d
+
+
 ## Detailed Logic
 
 ### A. Proses Penawaran
