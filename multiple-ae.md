@@ -75,10 +75,10 @@ flowchart TD
         LOCK[Lock Data Pelanggan<br/> Status: In Progress]
 
         LOCK --> TIMER_MAIN_START[Start Timer Penawaran<br/>5x24 jam]
-        TIMER_MAIN_START --> TIMER_CHECKLIST_START[Start Timer Follow Up</br>1x24 jam]
+        TIMER_MAIN_START --> TIMER_CHECKLIST_START[Start Timer Tindak Lanjut</br>1x24 jam]
 
         TIMER_CHECKLIST_START --> INPUT_CHECKLIST[AE wajib input<br/> <i>Checklist Tindak Lanjut<i>]
-        INPUT_CHECKLIST --> CHECKLIST_DECISION{Checklist input<br/> dalam 1x24 jam?}
+        INPUT_CHECKLIST --> CHECKLIST_DECISION{Ada input tindak lanjut<br/> dalam 1x24 jam?}
         CHECKLIST_DECISION --> |YA| STATUS_IN_PROGRESS
         
 
